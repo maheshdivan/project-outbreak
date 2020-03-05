@@ -1,0 +1,56 @@
+.container {
+    margin-top: 5em;
+}
+
+#filter-1 {
+    background-color: grey;
+    border-radius: 25px;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-height: 250px;
+}
+
+#filter-2 {
+    background-color: grey;
+    border-radius: 25px;
+    padding: 10px;
+    min-height: 250px;
+}
+
+#map-id {
+    background-color: lightgray;
+    border-radius: 25px;
+    min-height: 250px;
+    text-align: center;
+    padding: 50px;
+}
+
+#bar-id {
+    background-color: lightgray;
+    border-radius: 25px;
+    min-height: 250px;
+    text-align: center;
+    padding: 50px;
+}
+
+#line-id {
+    background-color: lightgray;
+    border-radius: 25px;
+    min-height: 250px;
+    min-width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    padding: 50px;
+    
+}
+
+
+/* PADDING */
+
+.pd-r-0 {
+    padding-right: 0px !important; 
+}
+
+.pd-l-0 {
+    padding-left: 0px !important;
+}
