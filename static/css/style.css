@@ -6,13 +6,19 @@ body {
     background-color: slategray;
 }
 
-.container {
-    margin-top: 5em;
+.container_set {
+    margin: 1em;
 }
 
 .sidemenu {
     background-color: white;
     border-radius: 25px;
+}
+
+.sideinfo {
+    background-color: white;
+    border-radius: 25px;
+    padding: 10px;
 }
 
 .filter {
@@ -25,6 +31,7 @@ body {
     background-color: lightgray;
     border-radius: 25px;
     min-height: 250px;
+    min-width: 100%;
     text-align: center;
     padding: 50px;
 }
@@ -33,7 +40,9 @@ body {
     background-color: lightgray;
     border-radius: 25px;
     min-height: 250px;
+    min-width: 100%;
     text-align: center;
+    margin-top: 20px;
     padding: 50px;
 }
 
