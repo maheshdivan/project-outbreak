@@ -1,20 +1,24 @@
+html {
+    background-color: slategray;
+}
+
+body {
+    background-color: slategray;
+}
+
 .container {
     margin-top: 5em;
 }
 
-#filter-1 {
-    background-color: grey;
+.sidemenu {
+    background-color: white;
+    border-radius: 25px;
+}
+
+.filter {
     border-radius: 25px;
     padding: 10px;
     margin-bottom: 20px;
-    min-height: 250px;
-}
-
-#filter-2 {
-    background-color: grey;
-    border-radius: 25px;
-    padding: 10px;
-    min-height: 250px;
 }
 
 #map-id {
@@ -34,14 +38,16 @@
 }
 
 #line-id {
-    background-color: lightgray;
     border-radius: 25px;
     min-height: 250px;
     min-width: 100%;
     text-align: center;
     margin-top: 20px;
-    padding: 50px;
-    
+    overflow: auto;
+}
+
+.hasDatepicker {
+    max-width: 100%;
 }
 
 
