@@ -1,9 +1,9 @@
 .csv of market data
 
-Index = 
-  DJI = Dow Jones Industrial
-  FTSE = FTSE100
-  GSPC = S&P 500
-  N225 = Nikkei 225
-  HSI = Hang Seng Index
+Index = <br>
+  DJI = Dow Jones Industrial <br>
+  FTSE = FTSE100 <br>
+  GSPC = S&P 500 <br>
+  N225 = Nikkei 225 <br>
+  HSI = Hang Seng Index <br>
   
