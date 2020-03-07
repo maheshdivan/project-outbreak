@@ -1,6 +1,6 @@
 .csv of market data
 
-Index = 
+Index = <br>
   DJI = Dow Jones Industrial <br>
   FTSE = FTSE100 <br>
   GSPC = S&P 500 <br>
