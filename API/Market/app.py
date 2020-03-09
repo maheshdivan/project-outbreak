@@ -19,6 +19,7 @@ def welcome():
         f"n=DJI,FTSE,GSPC,N225,HSI"
         f"<br>   </br>"
         f"/api/v1.0/epidemic/ebola<br/>"
+        f"/api/v1.0/epidemic/corona<br/>"
     )
 
 @app.route("/api/v1.0/index/<index>")
@@ -39,7 +40,7 @@ def market(index):
 
 
 @app.route("/api/v1.0/epidemic/ebola")
-def epidemic():
+def epidemic_e():
     try:
         cur.execute('SELECT * FROM ebola_epidemic')
         values1 = cur.fetchall()
@@ -54,7 +55,19 @@ def epidemic():
         return (f"<h2>An error occured</h2>")
 
 
-            
+@app.route("/api/v1.0/epidemic/corona")
+def epidemic_c():
+    try:
+        cur.execute('SELECT * FROM corona_epidemic')
+        values1 = cur.fetchall()
+
+        if values1 != []:
+           return (jsonify(values1))
+        else:
+            return ("<h3> No row found for epidemic</h3>")   
+
+    except TypeError :
+        print("I am here")           
         
 
 if __name__ == '__main__':
