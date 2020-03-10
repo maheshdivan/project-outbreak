@@ -1,9 +1,11 @@
 import psycopg2
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 
 
 app = Flask(__name__)
+CORS(app)
 
 conn = psycopg2.connect(host='localhost',user='mahesh1',password='mahesh',dbname='marketing_db')
 cur = conn.cursor()
@@ -71,4 +73,4 @@ def epidemic_c():
         
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
