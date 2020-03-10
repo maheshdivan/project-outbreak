@@ -2,7 +2,7 @@
 // d3.selectAll("#date-2").on("change",getData_e)
 
 d3.selectAll("#date-1").on("change")
-d3.selectAll("#date-2").on("change",getData_c)
+d3.selectAll("#date-2").on("change",getData_e)
 var final_data=[]
 var final_data_1=[]
 epidemic="Ebola"
