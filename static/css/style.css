@@ -1,35 +1,55 @@
+/* Col-md-setting */
+.col-md-2 {
+    padding: 0px;
+}
+
 html {
     background-color: slategray;
 }
 
 body {
+    height: 100%;
     background-color: slategray;
+    font-family: 'Quicksand', sans-serif;
 }
 
 .container_set {
     margin: 1em;
 }
 
+.navbar-brand {
+    font-size: 2em;
+    font-family: 'Raleway', sans-serif;
+}
+
+.nav-item {
+    margin-right: 1em;
+}
+
 .sidemenu {
     background-color: white;
-    border-radius: 25px;
+    padding: 1em;
+    padding-left: 2em;
+    height: 100%;
+    /* border-radius: 25px; */
 }
 
 .sideinfo {
     background-color: white;
-    border-radius: 25px;
+    height: 100%;
+    /* border-radius: 25px; */
     padding: 10px;
 }
 
 .filter {
-    border-radius: 25px;
+    /* border-radius: 25px; */
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 2em;
 }
 
 #map-id {
     background-color: lightgray;
-    border-radius: 25px;
+    /* border-radius: 25px; */
     min-height: 250px;
     min-width: 100%;
     text-align: center;
@@ -38,20 +58,20 @@ body {
 
 #bar-id {
     background-color: lightgray;
-    border-radius: 25px;
+    /* border-radius: 25px; */
     min-height: 250px;
     min-width: 100%;
     text-align: center;
-    margin-top: 20px;
+    /* margin-top: 20px; */
     padding: 50px;
 }
 
 #line-id {
-    border-radius: 25px;
+    /* border-radius: 25px; */
     min-height: 250px;
     min-width: 100%;
     text-align: center;
-    margin-top: 20px;
+    /* margin-top: 20px; */
     overflow: auto;
 }
 
