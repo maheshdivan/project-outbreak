@@ -21,8 +21,8 @@
     
     <script>
         $( function() {
-          $( "#date-1" ).datepicker({ dateFormat: 'yy-mm-dd' });
-          $( "#date-2" ).datepicker({ dateFormat: 'yy-mm-dd' });
+          $( "#date-1" ).datepicker({ dateFormat: 'mm/dd/yy' });
+          $( "#date-2" ).datepicker({ dateFormat: 'mm/dd/yy' });
         } );
     </script>
     
@@ -71,9 +71,9 @@
                         
                         <div class="filter">
                             <label for="epidemic">Date From: </label>
-                            <input type="text" id="date-1" name="date-1" value="2020-01-01">
+                            <input type="text" id="date-1" name="date-1" value="01/01/2020">
                             <label for="epidemic">Date To: </label>
-                            <input type="text" id="date-2" name="date-2" value="2020-02-01">
+                            <input type="text" id="date-2" name="date-2" value="03/01/2020">
                             <input id="submit-btn" type="submit" class="btn btn-default" value="Submit">
                         </div>
 
