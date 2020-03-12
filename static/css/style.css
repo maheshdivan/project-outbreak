@@ -73,8 +73,9 @@ body {
     padding: 50px;
 }
 
-#line-id {
+.line-class {
     /* border-radius: 25px; */
+    background-color: lightgray;
     min-height: 250px;
     min-width: 100%;
     text-align: center;

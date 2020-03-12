@@ -73,6 +73,6 @@ d3.json(url).then(function (data) {
     responsive: true
   };
 
-  Plotly.newPlot("line-id", data, layout, config);
+  Plotly.newPlot("market1", data, layout, config);
 
 });
