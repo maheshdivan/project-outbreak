@@ -1,5 +1,10 @@
+// Function to format numbers with commas
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
 // Set Epidemic parameters for API
-var epidemic = "ebola"
+var epidemic = "corona"
 queryurl = `http://0.0.0.0:5000/api/v1.0/epidemic/` + epidemic
 console.log(queryurl)
 
@@ -31,7 +36,6 @@ d3.json(geoJSON).then(function (data) {
   });
   geojsonLayer.addTo(map);
 });
-
 
 
 // Create function to retrive data from epidemic API and geoJSON
@@ -149,7 +153,8 @@ function addMapLayers(startDate, endDate) {
           // Add popup information 
           for (var i = 0; i < countryRollUp_data.length; i++) {
             if (countryRollUp_data[i]["country"] == feature.properties.ADMIN) {
-              layer.bindPopup("<text> <b>" + feature.properties.ADMIN + "</b> </text> <br> <text>" + "Confirmed Cases: " + countryRollUp_data[i]["confirmed"] + "</text> <br> <text>" + "Confirmed Deaths: " + countryRollUp_data[i]["deaths"] + "</text>");
+              layer.bindPopup("<text> <b>" + feature.properties.ADMIN + "</b> </text> <br> <text>" + "Confirmed Cases: " + formatNumber(countryRollUp_data[i]["confirmed"]) +
+                "</text> <br> <text>" + "Confirmed Deaths: " + formatNumber(countryRollUp_data[i]["deaths"]) + "</text>");
               feature.properties.confirmed = countryRollUp_data[i]["confirmed"]
               // console.log(feature.properties.confirmed)
             };
