@@ -47,10 +47,17 @@ body {
     margin-bottom: 2em;
 }
 
+#submit-btn {
+    border-color: grey;
+    box-shadow: grey;
+    opacity: 80%;
+    margin-top: 1em;
+}
+
 #map-id {
     background-color: lightgray;
     /* border-radius: 25px; */
-    min-height: 250px;
+    min-height: 400px;
     min-width: 100%;
     text-align: center;
     padding: 50px;
