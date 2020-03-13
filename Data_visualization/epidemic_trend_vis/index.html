@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Financial Plot</title>
+  <script src="https://unpkg.com/simple-statistics@5.0.0/dist/simple-statistics.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+   
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <h1>
+        Epidemic trends
+        <span id="report-date" style="float: right;"></span>
+      </h1>
+      <p></p>
+    </div>
+    </div>
+  </div>
+  <div>
+     <label for="epidemic">From Date</label>
+     <input type="date" id="date-1" name="date-1">
+  </div>  
+
+  <div>
+    <label for="epidemic">To Date</label>
+    <input type="date" id="date-2" name="date-2">
+ </div>  
+
+ <input type="checkbox" id="vehicle1" name="vehicle1" value="Corona">
+ <label for="vehicle1"> Corona</label><br>
+ <input type="checkbox" id="vehicle2" name="vehicle2" value="Ebola">
+<label for="vehicle2"> Ebola</label><br>
+
+<script>
+  d3.selectAll('input').attr('checked',null);
+</script>
+  <div id="plot"></div>
+  <script src="plots.js"></script>
+</body>
+
+</html>

@@ -9,18 +9,30 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Javascript for BootStrap -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://unpkg.com/simple-statistics@5.0.0/dist/simple-statistics.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Leaflet JS & CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+    integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+    crossorigin=""></script>
+    
     <script>
         $( function() {
-          $( "#datefrom" ).datepicker();
-          $( "#dateto" ).datepicker();
+          $( "#date-1" ).datepicker({ dateFormat: 'mm/dd/yy' });
+          $( "#date-2" ).datepicker({ dateFormat: 'mm/dd/yy' });
         } );
     </script>
-
+    
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
     integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
@@ -33,8 +45,7 @@
     <!-- D3 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
 
-    <!-- Plotly -->
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
@@ -64,41 +75,64 @@
             <div class="col-md-2">
                 <div class="sidemenu">
                     <div class="filter">
-                        <h5>Side filter option</h5>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" value="zika">Zika
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" value="ebola">Ebola
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" value="covid-19">COVID-19
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" value="cholera">Cholera
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" value="sars">SARS
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" value="h1n1">H1N1
-                            </label>
-                        </div>
+                        
                         <div class="filter">
-                            <p>Date From: <br><input type="text" id="datefrom"></p>
-                            <p>To<br><input type="text" id="dateto"></p>
-                            <button id="submit-btn" type="button" class="btn btn-default">Submit</button>
+                            <label for="epidemic">Date From: </label>
+                            <input type="text" id="date-1" name="date-1" value="01/01/2020">
+                            <label for="epidemic">Date To: </label>
+                            <input type="text" id="date-2" name="date-2" value="03/01/2020">
+                            <input id="submit-btn" type="submit" class="btn btn-default" value="Submit">
+                        </div>
+
+                        
+                        
+                        <h3>Epidemic</h3>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input epidemic" name="epidemic" value="zika">Zika
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input epidemic" name="epidemic" value="ebola">Ebola
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input epidemic" name="epidemic" value="covid-19" checked="true">COVID-19
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input epidemic" name="epidemic" value="cholera">Cholera
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input epidemic" name="epidemic" value="sars">SARS
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input epidemic" name="epidemic" value="h1n1">H1N1
+                            </label>
+                        </div>
+                        <br>
+                        <h3>Market</h3>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input market" name="market" value="us" checked>US
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input market" name="market" value="europe">Europe
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input market" name="market" value="asia">Asia
+                            </label>
                         </div>
                     </div>
                     
@@ -107,16 +141,26 @@
             <div class="col-md-8">
                 <div class="row">
                     <div id="map-id">
-                        <p>Here is the Geomap graph</p>
+
                     </div>
                 </div>
                 <div class="row">
                     <div id="bar-id">
-                        <p>Here is the bar graph</p>
+
                     </div>
                 </div>
                 <div class="row">
-                    <div id="line-id">
+                    <div id="market1" class="line-class">
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="market2" class="line-class">
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="market3" class="line-class">
                         
                     </div>
                 </div>
@@ -124,9 +168,9 @@
             <div class="col-md-2">
                 <div class="sideinfo">
                     <h5>Data</h5>
-                    <div class="row">
-                        
-                    </div>
+                    <ul id="list">
+
+                    </ul>
                 </div>
             </div>
         </div>
@@ -138,10 +182,7 @@
   <!-- MomentJS -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
 
-  <!-- Leaflet JavaScript -->
-  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
-  integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
-  crossorigin=""></script>
+
 
   <!-- polyfill.io is library for using newer JavaScript features in older browers (such as Object.assign) -->
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
@@ -153,6 +194,10 @@
   <!-- Our JavaScript -->
   <!-- <script type="text/javascript" src="static/js/logic.js"></script> -->
   <script type="text/javascript" src="static/js/plots.js"></script>
+  <script type="text/javascript" src="static/js/epidemic_trend_plots.js"></script>
+  <script type="text/javascript" src="static/js/map.js"></script>
+  <script type="text/javascript" src="static/js/config.js"></script>
+
   
 
 </body>
