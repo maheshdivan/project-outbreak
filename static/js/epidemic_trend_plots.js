@@ -1,14 +1,51 @@
+
+
+var cbs = document.querySelectorAll('input[type=radio]');
+for(var i = 0; i < cbs.length; i++) {
+    cbs[i].addEventListener('change', function() {
+        if(this.checked)
+            switch(this.value){
+              case 'ebola':
+                console.log("Inside Ebola")
+                ebola()
+                break
+              case 'covid-19':
+                console.log("Inside Corona")
+                corona()
+                break 
+            }
+    });
+}
+
 // d3.selectAll("#date-1").on("change")
 // d3.selectAll("#date-2").on("change",getData_e)
 
-d3.selectAll("#date-1").on("change")
-d3.selectAll("#date-2").on("change",getData_c)
-var final_data=[]
-var final_data_1=[]
-epidemic="Ebola"
+function ebola(){
+  var submit = d3.select("#submit-btn")
+  console.log(submit)
+  submit.on("click", function (){
 
-function getData_e(){
+    startDate = new Date(document.getElementById("date-1").value);
+    endDate = new Date(document.getElementById("date-2").value);
+    getData_e(startDate,endDate)
+  })
+}
 
+
+function corona(){
+  var submit = d3.select("#submit-btn")
+  submit.on("click", function (){
+    startDate = new Date(document.getElementById("date-1").value);
+    endDate = new Date(document.getElementById("date-2").value);
+    getData_c(startDate,endDate)
+  })
+}
+
+// var final_data=[]
+// var final_data_1=[]
+
+function getData_e(selection_1,selection_2){
+    epidemic ="Ebola"
     var selection_1=document.getElementById('date-1').value;
     var arr1 = selection_1.split("/") 
     selection_1=arr1[2].toString()+"-"+arr1[0].toString()+"-"+arr1[1].toString()
@@ -89,7 +126,7 @@ function getData_e(){
 
     var data = [trace1,trace2];
 
-    Plotly.newPlot("line-id2", data);
+    Plotly.newPlot("bar-id", data);
    
    //   var x_axis = totalByDate["key"]
    //   console.log("Xaxis",x_axis)
@@ -98,7 +135,7 @@ function getData_e(){
 
    }
 
-   function getData_c(){
+   function getData_c(selection_1,selection_2){
 
     epidemic ="Corona"
 
@@ -181,7 +218,7 @@ function getData_e(){
 
     var data = [trace1,trace2];
 
-    Plotly.newPlot("line-id2", data);
+    Plotly.newPlot("bar-id", data);
    
    //   var x_axis = totalByDate["key"]
    //   console.log("Xaxis",x_axis)

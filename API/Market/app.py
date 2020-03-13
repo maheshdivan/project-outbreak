@@ -7,7 +7,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-conn = psycopg2.connect(host='localhost',user='mahesh1',password='mahesh',dbname='marketing_db')
+# conn = psycopg2.connect(host='localhost',user='mahesh1',password='mahesh',dbname='marketing_db')
+conn = psycopg2.connect(host='localhost',user='postgres',password='940818',dbname='marketing_db')
 cur = conn.cursor()
 
 
@@ -73,4 +74,4 @@ def epidemic_c():
         
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=False)

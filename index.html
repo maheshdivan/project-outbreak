@@ -18,6 +18,13 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- Plotly -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Leaflet JS & CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+    integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+    crossorigin=""></script>
     
     <script>
         $( function() {
@@ -71,9 +78,9 @@
                         
                         <div class="filter">
                             <label for="epidemic">Date From: </label>
-                            <input type="text" id="date-1" name="date-1" value="09/01/2014">
+                            <input type="text" id="date-1" name="date-1" value="01/01/2020">
                             <label for="epidemic">Date To: </label>
-                            <input type="text" id="date-2" name="date-2" value="03/01/2016">
+                            <input type="text" id="date-2" name="date-2" value="03/01/2020">
                             <input id="submit-btn" type="submit" class="btn btn-default" value="Submit">
                         </div>
 
@@ -87,12 +94,12 @@
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input epidemic" name="epidemic" value="ebola" checked>Ebola
+                                <input type="radio" class="form-check-input epidemic" name="epidemic" value="ebola">Ebola
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input epidemic" name="epidemic" value="covid-19">COVID-19
+                                <input type="radio" class="form-check-input epidemic" name="epidemic" value="covid-19" checked="true">COVID-19
                             </label>
                         </div>
                         <div class="form-check">
@@ -114,27 +121,17 @@
                         <h3>Market</h3>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input market" name="market" value="dowjones" checked>Dow Jones Industrial (U.S.)
+                                <input type="checkbox" class="form-check-input market" name="market" value="us" checked>US
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input market" name="market" value="s&p500" checked>S&P 500 (U.S)
+                                <input type="checkbox" class="form-check-input market" name="market" value="europe">Europe
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input market" name="market" value="ftse100">FTSE100 (U.K)
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input market" name="market" value="nikkei">Nikkei 225 (Japan)
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input market" name="market" value="hangseng">Hang Seng (Hong Kong)
+                                <input type="checkbox" class="form-check-input market" name="market" value="asia">Asia
                             </label>
                         </div>
                     </div>
@@ -171,9 +168,9 @@
             <div class="col-md-2">
                 <div class="sideinfo">
                     <h5>Data</h5>
-                    <div class="row">
-                        
-                    </div>
+                    <ul id="list">
+
+                    </ul>
                 </div>
             </div>
         </div>
@@ -185,10 +182,7 @@
   <!-- MomentJS -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
 
-  <!-- Leaflet JavaScript -->
-  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
-  integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
-  crossorigin=""></script>
+
 
   <!-- polyfill.io is library for using newer JavaScript features in older browers (such as Object.assign) -->
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
