@@ -1,16 +1,15 @@
 // Function to format numbers with commas
 function formatNumber(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-}
+};
 
 // Set Epidemic parameters for API
-var epidemic = "corona"
-queryurl = `http://0.0.0.0:5000/api/v1.0/epidemic/` + epidemic
-console.log(queryurl)
+// queryurl = `http://0.0.0.0:5000/api/v1.0/epidemic/` + epidemic
+// console.log(queryurl)
 
 // Path to countries geoJSON
-var geoJSON = "data_sets/countries.geojson";
-
+var geoJSON = "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson";
+console.log(geoJSON)
 // Creating map object
 map = L.map("map-id", {
   center: [15, -10],
@@ -39,7 +38,7 @@ d3.json(geoJSON).then(function (data) {
 
 
 // Create function to retrive data from epidemic API and geoJSON
-function addMapLayers(startDate, endDate) {
+function addMapLayers(startDate, endDate, queryurl) {
 
   // Create empty arrays that will be used
   var epidemic_data = [];
@@ -98,6 +97,36 @@ function addMapLayers(startDate, endDate) {
       });
     };
     console.log(countryRollUp_data);
+
+    /////// Print out top 5 countries with confirmed cases data ///////
+    // Sort data from highest to lowest confirmed cases
+    var sorted_data = countryRollUp_data.sort(function (a, b) {
+      return b.confirmed - a.confirmed;
+    });
+
+    // If statement to only get the top 5 countries, len = 4 since 0 is counted
+    if (sorted_data.length > 5) {
+      len = 5;
+    } else {
+      len = sorted_data.length;
+    }
+
+    //function that appeneds new row to the list
+    function appenedToList(text) {
+      var ul = document.getElementById("list");
+      var li = document.createElement("li");
+      li.appendChild(document.createTextNode(text));
+      ul.appendChild(li);
+    };
+
+    // Loop through sorted data and print info into list 
+
+    for (var i = 0; i < len; i++) {
+      var text = ("Country: " + sorted_data[i]['country'] +
+        ";   Confirmed cases: " + formatNumber(sorted_data[i]['confirmed']) +
+        ";   Confirmed deaths: " + formatNumber(sorted_data[i]['deaths']))
+      appenedToList(text)
+    };
 
 
     // Get geoJSON data
@@ -168,13 +197,50 @@ function addMapLayers(startDate, endDate) {
 };
 
 
+// Function gets the value of the selected epidemic
+function displayRadioValue() {
+  var ele = document.getElementsByName("epidemic");
+  for (i = 0; i < ele.length; i++) {
+    if (ele[i].checked) {
+      var epidemic_test = (ele[i].value);
+      console.log(epidemic_test);
+    }
+  };
+};
+
+
 // Getting a reference to the submit button
 var submit = d3.select("#submit-btn");
+
 
 // Retrieving date when button is clicked
 submit.on("click", function () {
   // Remove already plotted layer
   map.removeLayer(geojsonLayer);
+
+  // Removes all list components to assign new ones
+  var lis = document.querySelectorAll('#list li');
+  for (var i = 0; li = lis[i]; i++) {
+    li.parentNode.removeChild(li);
+  };
+
+
+  // Gets selected epidemic value
+  var ele = document.getElementsByName("epidemic");
+  for (i = 0; i < ele.length; i++) {
+    if (ele[i].checked) {
+      if(ele[i].value == "covid-19"){
+        var epidemic_test = "corona";
+      }else{
+        var epidemic_test = (ele[i].value);
+      };  
+    };
+  };
+
+  // Set Epidemic parameters for API
+  queryurl = `http://0.0.0.0:5000/api/v1.0/epidemic/` + epidemic_test;
+  console.log(queryurl)
+
 
   // Recenter map
   map.setView([15, -10], 1.5)
@@ -186,6 +252,11 @@ submit.on("click", function () {
   console.log("End Date: " + endDate);
 
   // Plot new info
-  addMapLayers(startDate, endDate);
+  addMapLayers(startDate, endDate, queryurl);
+
 });
+
+
+
+
 

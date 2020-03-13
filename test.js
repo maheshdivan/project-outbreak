@@ -1,120 +1,146 @@
-// Function to format numbers with commas
-function formatNumber(num) {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-}
+// d3.selectAll("#date-1").on("change")
+// d3.selectAll("#date-2").on("change",getData_e)
+var boxes = d3.selectAll("input.checkbox:checked")
+console.log(boxes)
+d3.selectAll("#date-1").on("change")
+d3.selectAll("#date-2").on("change",getData_c)
+var final_data=[]
+var final_data_1=[]
+epidemic="Ebola";
 
-// Set Epidemic parameters for API
-var epidemic = "corona"
-queryurl = `http://0.0.0.0:5000/api/v1.0/epidemic/` + epidemic
-console.log(queryurl)
-
-
-/////////////////////// DATES TO TEST ///////////////////////
-startDate = new Date(2020, 01, 20);
-endDate = new Date(2020, 01, 30);
-console.log("Start Date: " + startDate);
-console.log("End Date: " + endDate);
-
-// Create empty arrays that will be used
-var epidemic_data = [];
-var countryRollUp_data = [];
-var between_array = [];
-
-// Get epidemic data from API
-d3.json(queryurl).then(function (data) {
-  for (var i = 0; i < data.length; i++) {
-    if (data[i][2] == 0 && data[i][3] == 0) {
-
-    }
-    else {
-      epidemic_data.push({
-        date: data[i][0],
-        country: data[i][1],
-        confirmed: data[i][2],
-        deaths: data[i][3]
-      });
-    };
-  };
-  console.log(epidemic_data);
-  console.log(endDate);
-
-  // Filter epidemic data by Date
-  var filteredByDate = epidemic_data.filter(function (data) {
-    var date = new Date(data.date);
-    // console.log(date)
-    return (date >= startDate && date <= endDate);
-  });
-  console.log(filteredByDate)
-
-  // Roll up date filtered data by country
-  var countryRollUp = d3.nest()
-    .key(function (d) { return d.country })
-    .rollup(function (v) {
-      return {
-        confirmed: d3.sum(v, function (d) { return d.confirmed }),
-        deaths: d3.sum(v, function (d) { return d.deaths })
+function getData_e(){
+    var selection_1=document.getElementById('date-1').value;
+    var selection_2=document.getElementById('date-2').value;
+    // if (selection_1 > selection_2){
+    //     alert("Date from should be less or equal to Date to")
+    // }
+    console.log("Date from select is ",selection_1)
+    console.log("Date to select is ",selection_2)
+    queryurl=`http://0.0.0.0:5000/api/v1.0/epidemic/ebola`
+    d3.json(queryurl).then(function(data) {
+      for (i=0;i<data.length;i++){
+        
+         if (data[i][1] > selection_1 & data[i][1]<selection_2 ) {
+            final_data.push({
+               country: data[i][0],
+               date: data[i][1],
+               confirm: data[i][4],
+               death: data[i][8]
+            })
+         }   
       }
-    })
-    .entries(filteredByDate);
-
-  // Transfer rolled up data to an inbetween array that will then turn into a json for easier use
-  var country = countryRollUp.map(Countries => Countries.key);
-  var conf_cases = countryRollUp.map(Countries => Countries.value["confirmed"]);
-  var conf_deaths = countryRollUp.map(Countries => Countries.value["deaths"]);
-  between_array.push(country, conf_cases, conf_deaths);
-
-  // Push all filtered and rolled up data into JSON for easier use
-  for (var i = 0; i < between_array[0].length; i++) {
-    countryRollUp_data.push({
-      country: between_array[0][i],
-      confirmed: between_array[1][i],
-      deaths: between_array[2][i]
-    });
-  };
-  console.log(countryRollUp_data);
-
-
-  /////// Print out top 10 countries with confirmed cases data ///////
-  // Sort data from highest to lowest confirmed cases
-  var sorted_data = countryRollUp_data.sort(function (a, b) {
-    return b.confirmed - a.confirmed;
-  });
-
-  // If statement to only get the top 10 countries, len = 9 since 0 is counted
-  if (sorted_data.length > 9) {
-    len = 9;
-  } else {
-    len = sorted_data.length;
-  }
-  console.log(len)
-  // Loop through sorted data and print info our
-  for (var i = 0; i < len; i++) {
-    console.log("Country: " + sorted_data[i]['country'] + 
-    "   Confirmed cases: " + formatNumber(sorted_data[i]['confirmed']) + 
-    "   Confirmed deaths: "  + formatNumber(sorted_data[i]['deaths']))
-  };
-
-});
-
-
-// Getting a reference to the submit button
-var submit = d3.select("#submit-btn");
-
-// Retrieving date when button is clicked
-submit.on("click", function () {
-  // Remove already plotted layer
-  // map.removeLayer(geojsonLayer);
-
-  // Recenter map
-  // map.setView([15, -10], 1.5)
-
-  // Retrive new dates 
-  startDate = new Date(document.getElementById("date-1").value);
-  endDate = new Date(document.getElementById("date-2").value);
-  console.log("Start Date: " + startDate);
-  console.log("End Date: " + endDate);
-
-  // Plot new info
-  // addMapLayers(startDate, endDate);
-});
-
+      console.log("Length of final",final_data)
+     var totalByDate=d3.nest()
+              .key(function(d){return d.date})
+              .rollup(function(v){return {
+                  total_case: d3.sum(v,function(d){return d.confirm}),
+                  total_death:d3.sum(v,function(d){return d.death})
+              } })
+              .entries(final_data )
+     console.log("totalByDate", totalByDate)
+   //  var total_cases= JSON.stringify(totalByDate)
+     //console.log(total_cases[0])
+     var titles = totalByDate.map(dates =>  dates.key);
+     var conf_case=totalByDate.map(dates =>  dates.value["total_case"])
+     var conf_death=totalByDate.map(dates =>  dates.value["total_death"])
+    // console.log(conf_death)         
+     var trace1 = {
+      type: "scatter",
+      mode: "lines",
+      name: epidemic+"Confirmed_Cases",
+      x: titles,
+      y: conf_case,
+      line: {
+        color: "#00796B"
+      }
+    };
+    var trace2 = {
+       type: "scatter",
+       mode: "lines",
+       name: epidemic+"Confirmed_death",
+       x: titles,
+       y: conf_death,
+       line: {
+         color: "#DC1A0E"
+       }
+     };
+    var data = [trace1,trace2];
+    Plotly.newPlot("plot1", data);
+   
+   //   var x_axis = totalByDate["key"]
+   //   console.log("Xaxis",x_axis)
+     })
+   }
+   function getData_c(){
+    epidemic ="Corona"
+    var selection_1=document.getElementById('date-1').value;
+    var arr1 = selection_1.split("-") 
+    arr1[0] = arr1[0]-2000
+    console.log(arr1[2])
+    selection_1 = arr1[1].toString()+"/"+arr1[2].toString()+"/"+arr1[0].toString()
+    var selection_2=document.getElementById('date-2').value;
+    var arr1 = selection_2.split("-") 
+    arr1[0] = arr1[0]-2000
+    console.log(arr1[2])
+    selection_2 = arr1[1].toString()+"/"+arr1[2].toString()+"/"+arr1[0].toString()
+    // if (selection_1 > selection_2){
+    //     alert("Date from should be less or equal to Date to")
+    // }
+    console.log("Date from select is ",selection_1)
+    console.log("Date to select is ",selection_2)
+    queryurl=`http://0.0.0.0:5000/api/v1.0/epidemic/corona`
+    d3.json(queryurl).then(function(data) {
+      for (i=0;i<data.length;i++){
+        
+         if (new Date(data[i][4]) > new Date(selection_1) & new Date(data[i][4]) < new Date(selection_2) ) {
+            console.log("I am inside")
+            final_data_1.push({
+               country: data[i][1],
+               date: data[i][4],
+               confirm: data[i][5],
+               death: data[i][7]
+            })
+         }   
+      }
+      console.log("Length of final",final_data_1.length)
+     var totalByDate=d3.nest()
+              .key(function(d){return d.date})
+              .rollup(function(v){return {
+                  total_case: d3.sum(v,function(d){return d.confirm}),
+                  total_death:d3.sum(v,function(d){return d.death})
+              } })
+              .entries(final_data_1 )
+     //console.log("totalByDate", totalByDate)
+     var total_cases= JSON.stringify(totalByDate)
+     //console.log(total_cases[0])
+     var titles = totalByDate.map(dates =>  dates.key);
+     var conf_case=totalByDate.map(dates =>  dates.value["total_case"])
+     var conf_death=totalByDate.map(dates =>  dates.value["total_death"])
+    // console.log(conf_death)         
+     var trace1 = {
+      type: "scatter",
+      mode: "lines",
+      name: epidemic+"Confirmed_Cases",
+      x: titles,
+      y: conf_case,
+      line: {
+        color: "#00796B"
+      }
+    };
+    var trace2 = {
+       type: "scatter",
+       mode: "lines",
+       name: epidemic+"Confirmed_death",
+       x: titles,
+       y: conf_death,
+       line: {
+         color: "#DC1A0E"
+       }
+     };
+    var data = [trace1,trace2];
+    Plotly.newPlot("plot", data);
+   
+   //   var x_axis = totalByDate["key"]
+   //   console.log("Xaxis",x_axis)
+     })
+   }
