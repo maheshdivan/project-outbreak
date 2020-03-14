@@ -117,16 +117,29 @@ function addMapLayers(startDate, endDate, queryurl) {
     function appenedToList(text) {
       var ul = document.getElementById("list");
       var li = document.createElement("li");
-      li.appendChild(document.createTextNode(text));
+      
+      li.appendChild(document.createTextNode(text[0]));
+      br = document.createElement("br");
+      li.appendChild(br);
+      li.appendChild(document.createTextNode(text[1]));
+      br = document.createElement("br");
+      li.appendChild(br);
+      li.appendChild(document.createTextNode(text[2]));
+
       ul.appendChild(li);
+      
     };
 
     // Loop through sorted data and print info into list 
 
     for (var i = 0; i < len; i++) {
-      var text = ("Country: " + sorted_data[i]['country'] +
-        ";   Confirmed cases: " + formatNumber(sorted_data[i]['confirmed']) +
-        ";   Confirmed deaths: " + formatNumber(sorted_data[i]['deaths']))
+      var text = ["Country: " + sorted_data[i]['country'],
+                  "Confirmed cases: " + formatNumber(sorted_data[i]['confirmed']),
+                  "Confirmed deaths: " + formatNumber(sorted_data[i]['deaths'])
+      ]
+      // var text = ("Country: " + sorted_data[i]['country'] +
+      //   ";   Confirmed cases: " + formatNumber(sorted_data[i]['confirmed']) +
+      //   ";   Confirmed deaths: " + formatNumber(sorted_data[i]['deaths']))
       appenedToList(text)
     };
 

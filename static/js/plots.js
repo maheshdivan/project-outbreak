@@ -1,91 +1,139 @@
-// Set default Date Values
-// document.getElementById("date-1").value = "9/1/14"
-// document.getElementById("date-2").value = "3/1/18"
-// Retrieve Date Value from Input Fields
-startDate = document.getElementById("date-1").value
-endDate = document.getElementById("date-2").value
-//Event Listener for Date Change on Submit
-// document.getElementById("submit-btn").addEventListener("submit", getData("DJI"));
-var ticker = "DJI";
-// var url = `http://localhost:5000/api/v1.0/index/`;
-var name = [];
-var dates = [];
-var m_open = [];
-var high = [];
-var low = [];
-var m_close = [];
-var adjclose = [];
-var volume = [];
+//On button submit, reolad charts
+d3.select("#submit-btn").on("click", function () {
+  getMarketData();
+  console.log("Clicked");
+})
+
+
 //Function to call Flask API and retrieve market data information
-function getData(market_id) {
-  var url = `http://localhost:5000/api/v1.0/index/`;
-  d3.json(url + market_id).then(function (data) {
-    //filter array based on dates
-    var filteredData = data.filter(series => new Date(series[1]) >= new Date(startDate) && new Date(series[1]) <= new Date(endDate));
-    console.log(filteredData);
-    for (i = 0; i < filteredData.length; i++) {
-      // Grab values from the data object to build the plots.
-      //Unpacking all values in case we want to use them later.
-      name = unpack(filteredData, 0);
-      dates = unpack(filteredData, 1);
-      m_open = unpack(filteredData, 2);
-      high = unpack(filteredData, 3);
-      low = unpack(filteredData, 4);
-      m_close = unpack(filteredData, 5);
-      adjclose = unpack(filteredData, 6);
-      volume = unpack(filteredData, 7);
-    }
-    //Switch to retrieve specific market data and plot in respective div
-    // switch (market_id) {
-    //   case 'DJI':
-    //     makePlot('line-id');
-    //     break;
-    //   case 'FTSE':
-    //     makePlot('line-id2')
-    //     break;
-    //   case 'HSI':
-    //     makePlot('line-id3');
-    //     break;
-    // }
-    makePlot()
+function getMarketData() {
+  var startDate = document.getElementById("date-1").value
+  var endDate = document.getElementById("date-2").value
+
+  // var url = `http://localhost:5000/api/v1.0/index/market`;
+
+  d3.csv("data_sets/marketdata/markets.csv").then(function (data) {
+    console.log("from data");
+    //Create Array Variables to store data
+    var dji_dates = [];
+    var dji_close = [];
+    var ftse_dates = [];
+    var ftse_close = [];
+    var n225_dates = [];
+    var n225_close = [];
+
+    console.log(startDate);
+    console.log(endDate);
+    //Filter array based on dates
+    console.log(data);
+    var filteredData = data.filter(series => new Date(series.timestamp) > new Date(startDate) & new Date(series.timestamp) < new Date(endDate));
+    console.log(filteredData)
+    //Filter array based on market index
+    var DJIData = filteredData.filter(dji => dji.ticker == 'DJI');
+    var FTSEData = filteredData.filter(ftse => ftse.ticker == 'FTSE');
+    var N225Data = filteredData.filter(n225 => n225.ticker == 'N225');
+
+  
+    DJIData.forEach((DJIData) => {
+      Object.entries(DJIData).forEach(([key, value]) => {
+        console.log(DJIData);
+        // Use the key to determine which array to push the value to
+        if (key === "timestamp") {
+          dji_dates.push(value);
+        }
+        if (key === "close") {
+          dji_close.push(value);
+        }
+      });
+    });
+
+    FTSEData.forEach((FTSEData) => {
+      Object.entries(FTSEData).forEach(([key, value]) => {
+        // Use the key to determine which array to push the value to
+        if (key === "timestamp") {
+          ftse_dates.push(value);
+        }
+        if (key === "close") {
+          ftse_close.push(value);
+        }
+      });
+    });
+
+    N225Data.forEach((N225Data) => {
+      Object.entries(N225Data).forEach(([key, value]) => {
+        // Use the key to determine which array to push the value to
+        if (key === "timestamp") {
+          n225_dates.push(value);
+        }
+        if (key === "close") {
+          n225_close.push(value);
+        }
+      });
+    });
+
+
+    var layout = {
+      showlegend: true,
+      legend: {
+        x: 0,
+        y: 1.5
+      },
+      yaxis: {
+        autorange: true
+      },
+      autosize: true
+    };
+
+    //Plot Dow Jones Industrial Average
+    var traceDJI = {
+      type: "scatter",
+      mode: "lines",
+      name: "Dow Jones Industrial",
+      x: dji_dates,
+      y: dji_close,
+      line: {
+        color: "#1b64ae"
+      }
+    };
+    var plotDJI = [traceDJI];
+    Plotly.newPlot('market1', plotDJI, layout);
+
+    //Plot FTSE
+    var traceFTSE = {
+      type: "scatter",
+      mode: "lines",
+      name: "FTSE 100",
+      x: ftse_dates,
+      y: ftse_close,
+      line: {
+        color: "#0990d1"
+      }
+    };
+    var plotFTSE = [traceFTSE];
+    Plotly.newPlot('market2', plotFTSE, layout);
+
+    //Plot Nikkei 225
+    var traceN225 = {
+      type: "scatter",
+      mode: "lines",
+      name: "Nikkei 225",
+      x: n225_dates,
+      y: n225_close,
+      line: {
+        color: "#1f497d"
+      }
+    };
+    var plotN225 = [traceN225];
+    Plotly.newPlot('market3', plotN225, layout);
   });
 }
+
 //Function to unpack array of items
 function unpack(rows, index) {
   return rows.map(function (row) {
     return row[index];
   });
 }
-//Plot market data time series
-function makePlot() {
-  var trace1 = {
-    type: "scatter",
-    mode: "lines",
-    name: ticker,
-    x: dates,
-    y: m_close,
-    line: {
-      color: "#DC1A0E"
-    }
-  };
-  var plotData = [trace1];
-  Plotly.newPlot('market1', plotData);
-}
-// function sleep(milliseconds) {
-//   const date = Date.now();
-//   let currentDate = null;
-//   do {
-//     currentDate = Date.now();
-//   } while (currentDate - date < milliseconds);
-// }
-// Retrieve and plot market data for each index
-getData('DJI');
-// sleep(3000);
-// getData('FTSE');
-// getData('FTSE');
-// getData('HSI');
-// Alternate method to retrieve and plot market data for each index, neither is working
-// marketIndexes = ['DJI', 'FTSE'];
-// for (i=0; marketIndexes.length; i++){
-//    getData(marketIndexes[i])
-//  };
+
+//Populate all charts on page load
+getMarketData();
