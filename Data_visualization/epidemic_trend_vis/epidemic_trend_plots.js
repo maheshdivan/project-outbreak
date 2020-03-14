@@ -1,6 +1,7 @@
 // d3.selectAll("#date-1").on("change")
 // d3.selectAll("#date-2").on("change",getData_e)
-
+var boxes = d3.selectAll("input.checkbox:checked")
+console.log(boxes)
 d3.selectAll("#date-1").on("change")
 d3.selectAll("#date-2").on("change",getData_c)
 var final_data=[]

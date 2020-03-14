@@ -31,7 +31,14 @@
     <input type="date" id="date-2" name="date-2">
  </div>  
 
+ <input type="checkbox" id="vehicle1" name="vehicle1" value="Corona">
+ <label for="vehicle1"> Corona</label><br>
+ <input type="checkbox" id="vehicle2" name="vehicle2" value="Ebola">
+<label for="vehicle2"> Ebola</label><br>
 
+<script>
+  d3.selectAll('input').attr('checked',null);
+</script>
   <div id="plot"></div>
   <script src="plots.js"></script>
 </body>

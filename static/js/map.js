@@ -10,6 +10,7 @@ function formatNumber(num) {
 // Path to countries geoJSON
 var geoJSON = "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson";
 console.log(geoJSON)
+
 // Creating map object
 map = L.map("map-id", {
   center: [15, -10],
@@ -30,6 +31,7 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 // Create dummy geoJSON layer so we can refresh data on click
 d3.json(geoJSON).then(function (data) {
+  console.log(geoJSON);
   // Creating a geoJSON layer with the retrieved data
   geojsonLayer = L.geoJson(data, {
   });

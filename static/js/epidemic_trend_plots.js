@@ -1,16 +1,59 @@
+
+
+var cbs = document.querySelectorAll('input[type=radio]');
+for(var i = 0; i < cbs.length; i++) {
+    cbs[i].addEventListener('change', function() {
+        if(this.checked)
+            switch(this.value){
+              case 'ebola':
+                console.log("Inside Ebola")
+                ebola()
+                break
+              case 'covid-19':
+                console.log("Inside Corona")
+                corona()
+                break 
+            }
+    });
+}
+
 // d3.selectAll("#date-1").on("change")
 // d3.selectAll("#date-2").on("change",getData_e)
 
-d3.selectAll("#date-1").on("change")
-d3.selectAll("#date-2").on("change",getData_e)
-var final_data=[]
-var final_data_1=[]
-epidemic="Ebola"
+function ebola(){
+  var submit = d3.select("#submit-btn")
+  console.log(submit)
+  submit.on("click", function (){
 
-function getData_e(){
+    startDate = new Date(document.getElementById("date-1").value);
+    endDate = new Date(document.getElementById("date-2").value);
+    getData_e(startDate,endDate)
+  })
+}
 
+
+function corona(){
+  var submit = d3.select("#submit-btn")
+  submit.on("click", function (){
+    startDate = new Date(document.getElementById("date-1").value);
+    endDate = new Date(document.getElementById("date-2").value);
+    getData_c(startDate,endDate)
+  })
+}
+
+// var final_data=[]
+// var final_data_1=[]
+
+function getData_e(selection_1,selection_2){
+    epidemic ="Ebola"
     var selection_1=document.getElementById('date-1').value;
+    var arr1 = selection_1.split("/") 
+    selection_1=arr1[2].toString()+"-"+arr1[0].toString()+"-"+arr1[1].toString()
+
     var selection_2=document.getElementById('date-2').value;
+    var arr1 = selection_2.split("/") 
+    selection_2=arr1[2].toString()+"-"+arr1[0].toString()+"-"+arr1[1].toString()
+
 
     // if (selection_1 > selection_2){
     //     alert("Date from should be less or equal to Date to")
@@ -18,18 +61,21 @@ function getData_e(){
 
     console.log("Date from select is ",selection_1)
     console.log("Date to select is ",selection_2)
-
+    data = {}
+    final_data=[]
     queryurl=`http://0.0.0.0:5000/api/v1.0/epidemic/ebola`
     d3.json(queryurl).then(function(data) {
+      
       for (i=0;i<data.length;i++){
         
-         if (data[i][1] > selection_1 & data[i][1]<selection_2 ) {
-
+         if (data[i][0] > selection_1 & data[i][0]<selection_2 ) {
+            console.log("I am inside")
+            console.log(data[i][0])
             final_data.push({
-               country: data[i][0],
-               date: data[i][1],
-               confirm: data[i][4],
-               death: data[i][8]
+               country: data[i][1],
+               date: data[i][0],
+               confirm: data[i][2],
+               death: data[i][3]
             })
          }   
       }
@@ -80,7 +126,7 @@ function getData_e(){
 
     var data = [trace1,trace2];
 
-    Plotly.newPlot("line-id2", data);
+    Plotly.newPlot("bar-id", data);
    
    //   var x_axis = totalByDate["key"]
    //   console.log("Xaxis",x_axis)
@@ -89,25 +135,22 @@ function getData_e(){
 
    }
 
-   function getData_c(){
+   function getData_c(selection_1,selection_2){
 
     epidemic ="Corona"
 
     var selection_1=document.getElementById('date-1').value;
-    var arr1 = selection_1.split("-") 
-
-    arr1[0] = arr1[0]-2000
-
+    console.log(selection_1)
+    var arr1 = selection_1.split("/") 
+    arr1[2] = arr1[2]-2000
     console.log(arr1[2])
-    selection_1 = arr1[1].toString()+"/"+arr1[2].toString()+"/"+arr1[0].toString()
+    selection_1 = arr1[0].toString()+"/"+arr1[1].toString()+"/"+arr1[2].toString()
 
     var selection_2=document.getElementById('date-2').value;
-    var arr1 = selection_2.split("-") 
-
-    arr1[0] = arr1[0]-2000
-
+    var arr1 = selection_2.split("/") 
+    arr1[2] = arr1[2]-2000
     console.log(arr1[2])
-    selection_2 = arr1[1].toString()+"/"+arr1[2].toString()+"/"+arr1[0].toString()
+    selection_2 = arr1[0].toString()+"/"+arr1[1].toString()+"/"+arr1[2].toString()
 
     // if (selection_1 > selection_2){
     //     alert("Date from should be less or equal to Date to")
@@ -115,19 +158,20 @@ function getData_e(){
 
     console.log("Date from select is ",selection_1)
     console.log("Date to select is ",selection_2)
-
+    data = {}
+    final_data_1=[]
     queryurl=`http://0.0.0.0:5000/api/v1.0/epidemic/corona`
     d3.json(queryurl).then(function(data) {
       for (i=0;i<data.length;i++){
         
-         if (new Date(data[i][4]) > new Date(selection_1) & new Date(data[i][4]) < new Date(selection_2) ) {
+         if (new Date(data[i][0]) > new Date(selection_1) & new Date(data[i][0]) < new Date(selection_2) ) {
 
             console.log("I am inside")
             final_data_1.push({
                country: data[i][1],
-               date: data[i][4],
-               confirm: data[i][5],
-               death: data[i][7]
+               date: data[i][0],
+               confirm: data[i][2],
+               death: data[i][3]
             })
          }   
       }
@@ -174,7 +218,7 @@ function getData_e(){
 
     var data = [trace1,trace2];
 
-    Plotly.newPlot("line-id2", data);
+    Plotly.newPlot("bar-id", data);
    
    //   var x_axis = totalByDate["key"]
    //   console.log("Xaxis",x_axis)
