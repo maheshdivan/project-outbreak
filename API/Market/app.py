@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 # conn = psycopg2.connect(host='localhost',user='mahesh1',password='mahesh',dbname='marketing_db')
-conn = psycopg2.connect(host='localhost',user='postgres',password='940818',dbname='marketing_db')
+conn = psycopg2.connect(host='localhost',user='mahesh1',password='mahesh',dbname='marketing_db')
 cur = conn.cursor()
 
 
@@ -23,19 +23,20 @@ def welcome():
         f"<br>   </br>"
         f"/api/v1.0/epidemic/ebola<br/>"
         f"/api/v1.0/epidemic/corona<br/>"
+        f"/api/v1.0/epidemic/sars<br/>"
     )
 
-@app.route("/api/v1.0/index/<index>")
-def market(index):
-    print(index)
+@app.route("/api/v1.0/index/market")
+def market():
+    print()
     try:
-        cur.execute('SELECT * FROM index_table where ticker=%s',[index])
+        cur.execute('SELECT * FROM index_table')
         values = cur.fetchall()
 
         if values != []:
            return (jsonify(values))
         else:
-            return ("<h3> No row found for </h3>"+index)   
+            return ("<h3> No row found for </h3>")   
 
     except TypeError :
         print("I am here")
@@ -51,7 +52,7 @@ def epidemic_e():
         if values1 != []:
            return (jsonify(values1))
         else:
-            return ("<h3> No row found for epidemic</h3>")   
+            return ("<h3> No row found for epidemic ebola</h3>")   
 
     except TypeError :
         print("I am here")
@@ -61,16 +62,32 @@ def epidemic_e():
 @app.route("/api/v1.0/epidemic/corona")
 def epidemic_c():
     try:
-        cur.execute('SELECT * FROM corona_epidemic')
+        cur.execute('SELECT * FROM corona1_epidemic')
         values1 = cur.fetchall()
 
         if values1 != []:
            return (jsonify(values1))
         else:
-            return ("<h3> No row found for epidemic</h3>")   
+            return ("<h3> No row found for epidemic corona</h3>")   
 
     except TypeError :
-        print("I am here")           
+        print("I am here") 
+        return (f"<h2>An error occured</h2>")     
+
+@app.route("/api/v1.0/epidemic/sars")
+def epidemic_s():
+    try:
+        cur.execute('SELECT * FROM sars_epidemic')
+        values1 = cur.fetchall()
+
+        if values1 != []:
+           return (jsonify(values1))
+        else:
+            return ("<h3> No row found for epidemic sars</h3>")   
+
+    except TypeError :
+        print("I am here")    
+        return (f"<h2>An error occured</h2>")               
         
 
 if __name__ == '__main__':

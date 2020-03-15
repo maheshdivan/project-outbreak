@@ -41,7 +41,7 @@
                 dateFormat: 'mm/dd/yy' });
         } );
     </script>
-    
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
     integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
@@ -64,7 +64,7 @@
 
   <!-- The div that holds our map -->
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-end">
-        <a class="navbar-brand" href="#">SMMA</a>
+        <a class="navbar-brand" href="#">PROJECT OUTBREAK</a>
         <div class="collapse navbar-collapse flex-grow-0 ml-auto">
             <ul class="navbar-nav text-right">
                 <li class="nav-item active">
@@ -74,7 +74,7 @@
                     <a class="nav-link" href="about.html">About</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Data</a>
+                    <a class="nav-link" href="data.html">Data</a>
                 </li>
             </ul>
         </div>
@@ -86,9 +86,9 @@
                     <div class="filter">
                         
                         <div class="filter">
-                            <label for="epidemic">Date From: </label>
-                            <input type="text" id="date-1" name="date-1" value="01/01/2020"><br>
-                            <label for="epidemic">Date To: </label>
+                            <label for="epidemic">Date From: </label> <br>
+                            <input type="text" id="date-2" name="date-1" value="01/01/2020"><br>
+                            <label for="epidemic">Date To: </label> <br>
                             <input type="text" id="date-2" name="date-2" value="03/01/2020"><br>
                             <input id="submit-btn" type="submit" class="btn btn-default" value="Submit">
                         </div>
@@ -113,26 +113,14 @@
                         </div>
                         <br>
                         <h3>Market</h3>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input market" name="market" value="us" checked>US
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input market" name="market" value="europe">Europe
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input market" name="market" value="asia">Asia
-                            </label>
-                        </div>
+                        <h5>US</h5>
+                        <h5>Europe</h5>
+                        <h5>Asia</h5>
                     </div>
                     
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="row">
                     <div id="map-id">
 
@@ -159,7 +147,7 @@
                     </div>
                 </div>
             </div>  
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="sideinfo">
                     <h3>Top 5 infected countries</h5>
                     <ul id="list">
@@ -169,8 +157,17 @@
             </div>
         </div>
     </div>
- 
 
+    <div class="animation-area">
+        <ul class="box-area">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
 
 
   <!-- MomentJS -->
