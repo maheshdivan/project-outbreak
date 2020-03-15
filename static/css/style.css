@@ -142,7 +142,11 @@ body {
 .animation-area {
     background: linear-gradient(to bottom, #8942a8, #ba382f);
     width: 100%;
+<<<<<<< HEAD
     min-height: 400%;
+=======
+    min-height: 200%;
+>>>>>>> 007db10bf01398821717668f2396a96ab2835a6d
     position: absolute;
     top: 0px;
     left: 0px;
